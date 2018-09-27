@@ -9,6 +9,8 @@ from rest_framework import status
 from rest_framework.test import APIClient
 from apps.otc.models import OtcBase
 
+
+
 class RegistrationAPITest(TestCase):
 
     def setUp(self):

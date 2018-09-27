@@ -1,4 +1,4 @@
-import uuid
+import logging
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.urls import reverse
@@ -9,6 +9,10 @@ from rest_framework.response import Response
 from rest_framework import status
 # from apps.mailer.mailer import send_mail
 from apps.otc.models import OtcBase
+
+
+
+logger = logging.getLogger(__name__)
 # Create your views here.
 
 class RegisterView(CreateAPIView):
