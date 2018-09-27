@@ -37,10 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-#    'apps.auth',
-    # 'social_django',
-
-    # 'apps.otc',
+    #'apps.mfp-auth',
+    'social_django',
+    'apps.otc',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -162,4 +162,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-from local import *
+
+MFP_IP = "127.0.0.1:8000"
+
+OTC_EXPIRE_DAYS = 3
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
