@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'social_django',
 
     'apps.otc',
+    'cards',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +75,15 @@ TEMPLATES = [
         },
     },
 ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+
+
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'home'
