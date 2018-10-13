@@ -23,7 +23,7 @@ class CardListSerializer(serializers.ModelSerializer):
 
 class CardDetailSerializer(serializers.ModelSerializer):
     url = serializers.CharField(source='get_api_url', read_only=True)
-    image_front = CardListSerializer.get_image_front()
+    image_front = serializers.SerializerMethodField()
     image_back = serializers.SerializerMethodField()
 
     class Meta:
@@ -32,6 +32,13 @@ class CardDetailSerializer(serializers.ModelSerializer):
 
             'card_id', 'card_name', 'company', 'description', 'image_front', 'image_front',
         )
+
+    def get_image_front(self, obj):
+        try:
+            image_front = obj.image_front.url
+        except:
+            image_front = None
+        return image_front
 
     def get_image_back(self, obj):
         try:

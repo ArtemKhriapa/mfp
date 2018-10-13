@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
 class Company(models.Model):
-    company_id = models.IntegerField()
+    company_id = models.PositiveIntegerField(primary_key=True)
     company_name = models.CharField(max_length=100, blank=True, null=True)
     occupation = models.CharField(max_length=100, blank=True, null=True)
 
@@ -16,7 +16,7 @@ class Category(models.Model):
 
 class CardData(models.Model):
     user = models.ForeignKey(User)
-    card_id = models.PositiveIntegerField()
+    card_id = models.PositiveIntegerField(primary_key=True)
     card_name = models.CharField(max_length=50)
     company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.SET_NULL)
     description = models.TextField(blank=True)
