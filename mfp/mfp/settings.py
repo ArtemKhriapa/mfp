@@ -37,10 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    #'apps.mfp-auth',
     'social_django',
-
     'apps.otc',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -68,8 +68,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
+                # 'social_django.context_processors.backends',
+                # 'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -171,3 +171,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MFP_IP = "127.0.0.1:8000"
+
+OTC_EXPIRE_DAYS = 3
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
