@@ -39,9 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'social_django',
-
     'apps.otc',
-    'apps.reset_pass',
+    'apps.auth',
 ]
 
 MIDDLEWARE = [
