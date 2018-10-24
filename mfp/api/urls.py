@@ -4,4 +4,7 @@ urlpatterns = [
      #all url, who work for REST
       url(r'^reset-pass/',
         include('apps.auth.api.urls')),
+
+      url(r'^auth/',
+        include('apps.auth.api.urls')),
 ]

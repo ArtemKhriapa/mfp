@@ -2,21 +2,70 @@ from __future__ import absolute_import, unicode_literals
 
 from typing import Any, Tuple
 
+from django.contrib.auth import login,authenticate, logout
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.core.mail import send_mail
 
 from rest_framework import generics
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework import status
-
-from apps.otc.models import OtcBase
 from rest_framework.utils import json
 
+from apps.otc.models import OtcBase
+
 from .serializers import UserSerializer, ResetPasswordSerializer, NewPassCreateSerializer
-from django.core.mail import send_mail
+
+
+
+class FakeLoginView(generics.RetrieveAPIView):
+
+    permission_classes = []
+
+    def get(self, request, *args, **kwargs):
+        '''
+        username = request.query_params.get('username')
+        user = User.objects.filter(username=username).first()
+        if not user:
+            return HttpResponse("User not found", status=404)
+        '''
+        print('in fake')
+        user = authenticate(
+            username=request.query_params.get('username'),
+            password=request.query_params.get('password')
+        )
+        print(user)
+        if not user:
+            return HttpResponse("User not found", status=404)
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        return HttpResponseRedirect('/')
+
+
+class LogoutView(generics.DestroyAPIView):
+
+    permission_classes = [IsAuthenticated, ]
+
+    def delete(self, request, *args, **kwargs):
+        logout(request)
+
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
+
+'''
+class UserSelfView(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated, ]
+    serializer_class = UserProfileSerializer
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
+    def get_object(self):
+        return self.request.user.userprofile
+'''
+
 
 class ResetPasswordView(generics.CreateAPIView):
     permission_classes = []
