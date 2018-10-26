@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'social-auth/', include('social_django.urls', namespace='social')),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
-    url(r'^api/cards/', include('cards.api.urls')),
+    url(r'^api/cards/', include('cards.api.urls', namespace='cards-api')),
 
 ]
 

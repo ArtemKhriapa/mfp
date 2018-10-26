@@ -1,46 +1,49 @@
 from cards.models import CardData
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
 class CardListSerializer(serializers.ModelSerializer):
-    image_front = serializers.SerializerMethodField()
+    image_front_url = serializers.SerializerMethodField()
 
     class Meta:
         model = CardData
         fields = (
 
-            'card_id', 'card_name', 'company', 'category', 'image_front',
+            'user', 'card_id', 'card_name', 'company', 'category', 'image_front','image_front_url', #tags?
 
         )
 
-    def get_image_front(self, obj):
+    def get_image_front_url(self, obj):
         try:
             image_front = obj.image_front.url
         except:
             image_front = None
         return image_front
+
 
 
 class CardDetailSerializer(serializers.ModelSerializer):
     url = serializers.CharField(source='get_api_url', read_only=True)
-    image_front = serializers.SerializerMethodField()
-    image_back = serializers.SerializerMethodField()
+    image_front_url = serializers.SerializerMethodField()
+    image_back_url = serializers.SerializerMethodField()
 
     class Meta:
         model = CardData
         fields = (
 
-            'card_id', 'card_name', 'company', 'description', 'image_front', 'image_front',
+            'card_id', 'url', 'card_name', 'company', 'category',  'description', 'image_front', 'image_back', 'image_front_url', 'image_back_url',
         )
 
-    def get_image_front(self, obj):
+    def get_image_front_url(self, obj):
         try:
             image_front = obj.image_front.url
         except:
             image_front = None
         return image_front
 
-    def get_image_back(self, obj):
+    def get_image_back_url(self, obj):
         try:
             image_back = obj.image_back.url
         except:

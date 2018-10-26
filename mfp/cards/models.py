@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from taggit.managers import TaggableManager
 
 class Company(models.Model):
     company_id = models.PositiveIntegerField(primary_key=True)
@@ -24,6 +25,7 @@ class CardData(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     image_front = models.ImageField(upload_to='uploads/%Y/%m/%d/')
     image_back = models.ImageField(upload_to='uploads/%Y/%m/%d/')
+    tags = TaggableManager()
 
     class Meta:
         ordering = ['-timestamp']
@@ -33,4 +35,6 @@ class CardData(models.Model):
                                                                                          self.card_name, self.category,
                                                                                          self.company)
     def get_api_url(self):
-        return reverse("cards-api:detail", kwargs={"card_id": self.card_id})
+        return reverse("cards-api:card_detail", kwargs={"card_id": self.card_id})
+
+

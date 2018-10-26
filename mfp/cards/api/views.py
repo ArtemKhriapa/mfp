@@ -26,6 +26,6 @@ class CardDetail(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         action_item = get_object_or_404(
             CardData,
-            id=self.kwargs.get('card_id')
+            card_id=self.kwargs.get('card_id')
         )
         return action_item
