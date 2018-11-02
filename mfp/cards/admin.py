@@ -1,7 +1,6 @@
 from django.contrib import admin
-from cards.models import Company, Category, CardData
+from cards.models import Company, CardData
 # Register your models here.
 admin.site.register(Company)
-admin.site.register(Category)
-admin.site.register(CardData) 
+admin.site.register(CardData)
 
