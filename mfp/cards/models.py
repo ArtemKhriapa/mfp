@@ -42,9 +42,12 @@ class CardData(models.Model):
 
     def __str__(self):
         return " user: {}, card_id: {}, card_name: {}, category: {}, company: {}".format(self.user, self.card_id,
-                                                                                         self.card_name, self.category,
+                                                                                         self.card_name, self.categories,
                                                                                          self.company)
     def get_api_url(self):
         return reverse("cards-api:card_detail", kwargs={"card_id": self.card_id})
+
+    def pre_save(self, obj):
+        obj.user = self.request.user
 
 

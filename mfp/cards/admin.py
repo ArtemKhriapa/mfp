@@ -4,3 +4,5 @@ from cards.models import Company, CardData
 admin.site.register(Company)
 admin.site.register(CardData)
 
+class CardDataAdmin(admin.ModelAdmin):
+    pass
