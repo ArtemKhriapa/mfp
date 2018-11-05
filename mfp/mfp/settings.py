@@ -40,10 +40,12 @@ INSTALLED_APPS = [
 
     #'apps.mfp-auth',
     'social_django',
-    'apps.auth'
+    'apps.auth',
     'apps.otc',
     'rest_framework',
     'cards',
+    'taggit',
+    'taggit_serializer',
 
 ]
 
@@ -184,4 +186,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-from local import *

@@ -1,6 +1,8 @@
 from cards.models import CardData
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from taggit_serializer.serializers import (TagListSerializerField,
+                                           TaggitSerializer)
 
 User = get_user_model()
 
@@ -41,12 +43,13 @@ class CardListCreateSerializer(serializers.ModelSerializer):
     url = serializers.CharField(source='get_api_url', read_only=True)
     image_front_url = serializers.SerializerMethodField()
     image_back_url = serializers.SerializerMethodField()
+    tags = TagListSerializerField()
 
     class Meta:
         model = CardData
         fields = (
 
-             'card_id', 'url', 'card_name', 'company', 'categories',  'description', 'image_front', 'image_back', 'image_front_url', 'image_back_url',
+             'card_id', 'url', 'card_name', 'company', 'categories',  'description', 'image_front', 'image_back', 'image_front_url', 'image_back_url', 'tags',
         )
         extra_kwargs = {'owner': {'read_only': True}}
 
@@ -72,12 +75,13 @@ class CardDetailSerializer(serializers.ModelSerializer):
     image_front_url = serializers.SerializerMethodField()
     image_back_url = serializers.SerializerMethodField()
     user = UserDetailSerializer(read_only=True)
+    tags = TagListSerializerField()
 
     class Meta:
         model = CardData
         fields = (
 
-            'user', 'card_id', 'url', 'card_name', 'company', 'categories',  'description', 'image_front', 'image_back', 'image_front_url', 'image_back_url',
+            'user', 'card_id', 'url', 'card_name', 'company', 'categories',  'description', 'image_front', 'image_back', 'image_front_url', 'image_back_url', 'tags',
         )
 
     def get_image_front_url(self, obj):
