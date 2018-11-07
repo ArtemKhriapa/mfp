@@ -4,7 +4,6 @@ from django.conf import settings
 from django.utils import timezone
 from django.test import TestCase
 from django.contrib.auth.models import User
-
 from rest_framework import status
 from rest_framework.test import APIClient
 from apps.otc.models import OtcBase
@@ -34,7 +33,7 @@ class RegistrationAPITest(TestCase):
                                 })
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertContains(
-            response, b"Confirmation email has been sent to user - test_user", status_code=status.HTTP_201_CREATED)
+            response, b"Confirmation email has been sent to user - fake@fake.com", status_code=status.HTTP_201_CREATED)
 
     def test_user_email_exist(self):
         response = self.c.post('/api/registration',

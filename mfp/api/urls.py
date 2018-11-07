@@ -4,7 +4,7 @@ from apps.auth.views import RegisterView, ConfirmRegisterView, ResendRegistratio
 urlpatterns = [
     url(r'^registration', 
         RegisterView.as_view(), name='registration'),
-    url(r'^confirm_registration/(?P<key>[-:\w]+)',
+    url(r'^confirm_registration/(?P<otc>[-:\w]+)',
         ConfirmRegisterView.as_view(), name='confirm_registration'),
     url(r'^resend_registration', 
        ResendRegistrationView.as_view(), name='resend_registration')

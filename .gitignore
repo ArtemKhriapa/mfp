@@ -3,4 +3,5 @@
 *idea*
 *~
 *env
-*local.py
+*local*.py
+.vscode
