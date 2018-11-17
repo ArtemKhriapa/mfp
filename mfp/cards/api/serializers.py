@@ -1,4 +1,4 @@
-from cards.models import CardData
+from cards.models import CardData, Company, CompanyLocations
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from taggit_serializer.serializers import (TagListSerializerField,
@@ -98,4 +98,18 @@ class CardDetailSerializer(serializers.ModelSerializer):
             image_back = None
         return image_back
 
+class CompanyDetailSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = Company
+        fields = ('company_id', 'company_name',
+
+        )
+
+class CompanyLocationsListSerializer(serializers.ModelSerializer):
+    company = CompanyDetailSerializer()
+    class Meta:
+        model = CompanyLocations
+        fields = (
+            'company', 'address', 'geolocation', 'point_name',
+        )
