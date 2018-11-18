@@ -1,5 +1,6 @@
-from cards.models import CardData
-from cards.api.serializers import CardListSerializer, CardListCreateSerializer, CardDetailSerializer
+from cards.models import CardData, CompanyLocations
+from cards.api.serializers import CardListSerializer, CardListCreateSerializer, CardDetailSerializer, \
+    CompanyLocationsListSerializer
 
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser, \
@@ -19,14 +20,15 @@ class CardList(generics.ListAPIView):
         user = self.request.user
         return CardData.objects.filter(user=user)
 
+
 class CategoryList(generics.ListAPIView):
     serializer_class = CardListSerializer
 
     def get_queryset(self):
-
         user = self.request.user
         category = self.kwargs['categories']
         return CardData.objects.filter(user=user, categories=category)
+
 
 class CardListCreate(generics.ListCreateAPIView):
     serializer_class = CardListCreateSerializer
@@ -43,10 +45,10 @@ class CardListCreate(generics.ListCreateAPIView):
         user = self.request.user
         return CardData.objects.filter(user=user)
 
+
 class CardDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CardDetailSerializer
     permission_classes = (IsAuthenticated,)
-
 
     def get_object(self):
         action_item = get_object_or_404(
@@ -54,3 +56,12 @@ class CardDetail(generics.RetrieveUpdateDestroyAPIView):
             card_id=self.kwargs.get('card_id')
         )
         return action_item
+
+
+class CompanyLocationsList(generics.ListAPIView):
+    serializer_class = CompanyLocationsListSerializer
+    permission_classes = (IsAdminUser,)
+
+    def get_queryset(self):
+        company = self.kwargs['company']
+        return CompanyLocations.objects.filter(company=company)

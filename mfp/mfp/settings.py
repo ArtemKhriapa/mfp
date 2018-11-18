@@ -40,10 +40,13 @@ INSTALLED_APPS = [
 
     #'apps.mfp-auth',
     'social_django',
-    'apps.auth'
+    'apps.auth',
     'apps.otc',
     'rest_framework',
     'cards',
+    'taggit',
+    'taggit_serializer',
+    'django_google_maps',
 
 ]
 
@@ -147,6 +150,9 @@ SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
                                    ('headline', 'headline'),
                                    ('industry', 'industry')]
 
+GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyDQMPMBV6y-riLjZSZ46O6Bz5zz_Hr3BJ8'
+GOOGLE_MAPS_API_KEY = 'AIzaSyDQMPMBV6y-riLjZSZ46O6Bz5zz_Hr3BJ8'
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -184,4 +190,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-from local import *

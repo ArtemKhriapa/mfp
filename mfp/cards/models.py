@@ -2,8 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from taggit.managers import TaggableManager
-
-
+from django_google_maps import fields as map_fields
 
 
 
@@ -12,6 +11,18 @@ class Company(models.Model):
     company_name = models.CharField(max_length=100, blank=True, null=True)
     occupation = models.CharField(max_length=100, blank=True, null=True)
 
+    def __str__(self):
+        return " {}".format(self.company_name)
+
+class CompanyLocations(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, related_name='locations')
+    address = map_fields.AddressField(max_length=200, null=True)
+    geolocation = map_fields.GeoLocationField(max_length=100, null=True)
+    point_name = models.CharField(max_length=50, null=True)
+
+
+    def __str__(self):
+        return " company: {}, location: {} ".format(self.company, self.geolocation)
 
 class CardData(models.Model):
 
@@ -26,7 +37,7 @@ class CardData(models.Model):
 
     )
 
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     card_id = models.AutoField(primary_key=True)
     card_name = models.CharField(max_length=50)
     categories = models.CharField(max_length=8, choices=CATEGORIES, default=DISCOUNT)
