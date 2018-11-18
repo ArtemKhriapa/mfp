@@ -15,7 +15,7 @@ class Company(models.Model):
         return " {}".format(self.company_name)
 
 class CompanyLocations(models.Model):
-    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True)
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, related_name='locations')
     address = map_fields.AddressField(max_length=200, null=True)
     geolocation = map_fields.GeoLocationField(max_length=100, null=True)
     point_name = models.CharField(max_length=50, null=True)

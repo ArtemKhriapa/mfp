@@ -70,13 +70,34 @@ class CardListCreateSerializer(serializers.ModelSerializer):
 
 
 
+
+class CompanyLocationsListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CompanyLocations
+        fields = (
+             'address', 'geolocation', 'point_name',
+        )
+
+class CompanyDetailSerializer(serializers.ModelSerializer):
+    locations = serializers.SerializerMethodField()
+    class Meta:
+        model = Company
+        fields = ('company_id', 'company_name','locations',
+
+        )
+
+    def get_locations(self, obj):
+        return CompanyLocationsListSerializer(obj.locations.all(), many=True).data
+
+
 class CardDetailSerializer(serializers.ModelSerializer):
     url = serializers.CharField(source='get_api_url', read_only=True)
     image_front_url = serializers.SerializerMethodField()
     image_back_url = serializers.SerializerMethodField()
     user = UserDetailSerializer(read_only=True)
     tags = TagListSerializerField()
-
+    company = CompanyDetailSerializer()
     class Meta:
         model = CardData
         fields = (
@@ -97,19 +118,3 @@ class CardDetailSerializer(serializers.ModelSerializer):
         except:
             image_back = None
         return image_back
-
-class CompanyDetailSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Company
-        fields = ('company_id', 'company_name',
-
-        )
-
-class CompanyLocationsListSerializer(serializers.ModelSerializer):
-    company = CompanyDetailSerializer()
-    class Meta:
-        model = CompanyLocations
-        fields = (
-            'company', 'address', 'geolocation', 'point_name',
-        )
