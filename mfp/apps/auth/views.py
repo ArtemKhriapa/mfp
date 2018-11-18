@@ -21,7 +21,8 @@ class RegisterView(CreateAPIView):
 
     serializer_class = UserRegisterSerizalier
 
-    def get_queryset(self):
+    @property
+    def get_user_by_email(self):
         user_email = self.request.data['email']
         return User.objects.filter(email=user_email).first()
     
@@ -29,7 +30,7 @@ class RegisterView(CreateAPIView):
         serializer = self.get_serializer(data=request.data)
   
         if serializer.is_valid():
-            if self.get_queryset():
+            if self.get_user_by_email:
                 return Response({"result": "User witch such email  already exists"}, status=status.HTTP_400_BAD_REQUEST)
             user = serializer.save()
             url = self.get_activation_link(user)
