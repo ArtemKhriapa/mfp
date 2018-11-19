@@ -2,12 +2,12 @@ import logging
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.urls import reverse
-from django.core.mail import send_mail # TODO: delete after adding our wn mailer 
+# from django.core.mail import send_mail # TODO: delete after adding our wn mailer 
 from django.conf import settings
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import status
-# from apps.mailer.mailer import send_mail
+from apps.mailer.mailer import send_mail
 from apps.otc.models import OtcBase
 from apps.auth.api.serializer import UserRegisterSerizalier, ConfirmRegisterSerializer
 # from apps.mailer import send_mail
@@ -35,16 +35,30 @@ class RegisterView(CreateAPIView):
             user = serializer.save()
             url = self.get_activation_link(user)
             # TODO: add mailer functionality
-            subject = "Activation email"
-            context = "To activate  your account click activation link or past it to your browser - {}".format(url)
             
-            send_mail(
-                subject,
-                context,
-                'mfp@domain.com',
-                [user.email,],
-                fail_silently=True
-            )
+            
+            render_kwargs = {
+                'template_name': 'confirmation_email.html',
+                'context': {
+                    'user_name': user.username,
+                    'activation_link': url
+                }
+            }
+            send_kwargs = {
+                'subject': "Activation email",
+                'message': "To activate  your account click activation link or past it to your browser - {}".format(url),
+                'from_email': 'mfp@domain.com',
+                'recipient_list': [user.email,],
+                'fail_silently': True
+            }
+            # send_mail(
+            #     subject,
+            #     context,
+            #     'mfp@domain.com',
+            #     [user.email,],
+            #     fail_silently=True
+            # )
+            send_mail(**send_kwargs, render_kwargs=render_kwargs)
             
             return Response({"result": "Confirmation email has been sent to user - {}".format(user.email)
                             }, status=status.HTTP_201_CREATED)

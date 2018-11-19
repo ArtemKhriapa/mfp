@@ -37,10 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'apps.mfp-auth',
     'social_django',
     'apps.otc',
-    'rest_framework'
+    'rest_framework',
+    'djcelery_email'
 ]
 
 MIDDLEWARE = [
@@ -176,7 +176,20 @@ MFP_IP = "127.0.0.1:8000"
 
 OTC_EXPIRE_DAYS = 3
 
+EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+EMAIL_COPY_EMAILS = []
+EMAIL_COPY_EMAIL_REPLACE = ''
+
+# Celery config (set your broker configuration - by default guest@127.0.0.1)
+# CELERY_BROKER_URL = 'amqp://rabbit_celery:queue_celery@127.0.0.1/'
+
+CELERY_EMAIL_TASK_CONFIG = {
+    'name': 'djcelery_email_send',
+    'ignore_result': True,
+}
+CELERY_EMAIL_QUEUE = True
+
 try:
     from local_settings import *
 except ImportError:
-    pass
+    print("No local file")
