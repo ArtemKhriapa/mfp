@@ -20,5 +20,6 @@ class ResetPasswordSerializer(serializers.Serializer):
 
 class NewPassCreateSerializer(serializers.Serializer):
 
+
     new_password_1 = serializers.CharField(required=True)
     new_password_2 = serializers.CharField(required=True)

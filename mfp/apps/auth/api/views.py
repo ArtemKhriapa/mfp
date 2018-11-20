@@ -1,13 +1,17 @@
 from __future__ import absolute_import, unicode_literals
 
 from typing import Any, Tuple
-
 from django.contrib.auth import login,authenticate, logout
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils import timezone
 from django.core.mail import send_mail
+from apps.mailer.mailer import *
+from django.conf import settings
+from django.template import loader
 
 from rest_framework import generics
 from rest_framework import status
@@ -17,23 +21,31 @@ from rest_framework.response import Response
 from rest_framework.utils import json
 
 from apps.otc.models import OtcBase
+from apps.mailer.mailer import *
+
 
 from .serializers import UserSerializer, ResetPasswordSerializer, NewPassCreateSerializer
 
 
+class LoginView(generics.RetrieveAPIView):
+
+    permission_classes = []
+
+    def get(self, request, *args, **kwargs):
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+        else:
+            return HttpResponse("User not found", status=404)
+        return HttpResponseRedirect('/')
 
 class FakeLoginView(generics.RetrieveAPIView):
 
     permission_classes = []
 
     def get(self, request, *args, **kwargs):
-        '''
-        username = request.query_params.get('username')
-        user = User.objects.filter(username=username).first()
-        if not user:
-            return HttpResponse("User not found", status=404)
-        '''
-        print('in fake')
         user = authenticate(
             username=request.query_params.get('username'),
             password=request.query_params.get('password')
@@ -47,24 +59,21 @@ class FakeLoginView(generics.RetrieveAPIView):
 
 class LogoutView(generics.DestroyAPIView):
 
-    permission_classes = [IsAuthenticated, ]
-
+    permission_classes = [IsAuthenticated,]
     def delete(self, request, *args, **kwargs):
         logout(request)
-
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
-'''
+
 class UserSelfView(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticated, ]
-    serializer_class = UserProfileSerializer
+    serializer_class = UserSerializer
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context['request'] = self.request
         return context
     def get_object(self):
-        return self.request.user.userprofile
-'''
+        return self.request.user
 
 
 class ResetPasswordView(generics.CreateAPIView):
@@ -78,55 +87,67 @@ class ResetPasswordView(generics.CreateAPIView):
         if serializer.is_valid():
             email = serializer.data.get("email")
             user = User.objects.filter(email=email).first()
+            if user:
+                url = self.get_activation_link(user)
+                context = {'reset_password_link': url}
+                send_mail('Subject here', 'Here is the message.', settings.EMAIL_HOST_USER,
+                      ['originalugg2@gmail.com'], fail_silently=False,
+                      render_kwargs ={'template_name': 'password_reset_email.html', 'context': context})
             if not user:
                 return HttpResponse("User not found", status=404)
-        #send_mail(
-        #    'Восстановление пароля',
-        #    'Пройдите по ссылке для восстановления пароля',
-        #    'from@example.com',
-        #    ['to@example.com'],
-        #    fail_silently=False,
-        #)
             return Response("Change password letter was sent to your e-mail.", status=status.HTTP_200_OK)
         return Response (status=status.HTTP_404_NOT_FOUND)
 
-class NewPassCreateView(generics.UpdateAPIView):
+    def get_activation_link(self, user):
+        otc = OtcBase.objects.create(user=user)
+        otc.save()
+        token = otc.otc
+        confirm_url = "http://{}{}".format(settings.MFP_IP, reverse('api_new-pass', kwargs={"token": token}))
+        return confirm_url
+
+class NewPassCreateView(generics.RetrieveAPIView):
     
     permission_classes = []
     serializer_class = NewPassCreateSerializer
-    model = User
 
-    def get_object(self, request, *args, **kwargs):
-        data = request.data
-        token = kwargs['otc']
-        user = kwargs['user']
-        if OtcBase.objects.filter(otc=token).exist:
-            if user == OtcBase.objects.filter(user=user):
-                if OtcBase.otc.created_in < timezone.now():
-                    if OtcBase.otc.is_used == False:
-                        OtcBase.apply_this()
+    def get(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        token = kwargs['token']
+        token = get_object_or_404(OtcBase, otc=token)
+        user = token.user
+        if token:
+            if user:
+                if token.created_in < timezone.now():
+                    if token.is_used == False:
+                        token.apply_this()
+                    else:
+                        return Response ({"result":"OTC was used before."}, status=status.HTTP_400_BAD_REQUEST)
                 else:
-                    return Response ({"result":"OTC isn't valid."}, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({"result": "OTC's time isn't valid."}, status=status.HTTP_400_BAD_REQUEST)
             else:
                 return Response ({"result":"User with this OTC doesn't exist."}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response ({"result":"OTC doesn't exist."}, status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_200_OK)
 
+    def put(self, request, *args, **kwargs):
 
-    def update(self, request, *args, **kwargs):
-        self.object = self.get_object()
+        serializer_class = NewPassCreateSerializer
         serializer = self.get_serializer(data=request.data)
-
         if serializer.is_valid():
-            # Check old password
+            token = kwargs['token']
+            token = get_object_or_404(OtcBase, otc=token)
+            user = token.user
             new_password_1 = serializer.data.get("new_password_1")
             new_password_2 = serializer.data.get("new_password_2")
             if new_password_1 != new_password_2:
                 return Response({"result": ["Passwords aren't equal"]}, status=status.HTTP_400_BAD_REQUEST)
             else:
-                self.object.set_password(serializer.data.get("new_password_1"))
-                self.object.save()
-                return Response({"result":"Password has been reset."}, status=status.HTTP_200_OK)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                user.set_password(new_password_1)
+                user.save()
+                context = {'username': user}
+                send_mail('New password', 'Here is the message.', settings.EMAIL_HOST_USER,
+                          ['originalugg2@gmail.com'], fail_silently=False,
+                          render_kwargs={'template_name': 'new_pass_email.html', 'context': context})
+        return Response({"result":"Password has been reset. Your username and new password was sent to email address"},
+                        status=status.HTTP_200_OK)
