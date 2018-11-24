@@ -37,10 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
+
+    #'apps.mfp-auth',
     'social_django',
-    'apps.otc',
     'apps.auth',
+    'apps.otc',
+    'rest_framework',
+    'cards',
+    'taggit',
+    'taggit_serializer',
+    'django_google_maps',
+
 ]
 
 MIDDLEWARE = [
@@ -74,6 +81,15 @@ TEMPLATES = [
         },
     },
 ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+
+
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'home'
@@ -93,11 +109,12 @@ DATABASES = {
 
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.open_id.OpenIdAuth',  # for Google authentication
-    'social_core.backends.google.GoogleOpenId',  # for Google authentication
-    'social_core.backends.google.GoogleOAuth2',  # for Google authentication
-    'social_core.backends.github.GithubOAuth2',  # for Github authentication
-    'social_core.backends.facebook.FacebookOAuth2',  # for Facebook authentication
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.linkedin.LinkedinOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -124,6 +141,17 @@ SOCIAL_AUTH_GOOGLE_PROFILE_EXTRA_PARAMS = {
     'fields': 'id, name, email'
 }
 
+SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = '77dezkxrsz679b'
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = 'DbP6HIPDA82JoptR'
+SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
+                                   ('firstName', 'first_name'),
+                                   ('lastName', 'last_name'),
+                                   ('emailAddress', 'email_address'),
+                                   ('headline', 'headline'),
+                                   ('industry', 'industry')]
+
+GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyDQMPMBV6y-riLjZSZ46O6Bz5zz_Hr3BJ8'
+GOOGLE_MAPS_API_KEY = 'AIzaSyDQMPMBV6y-riLjZSZ46O6Bz5zz_Hr3BJ8'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
