@@ -1,0 +1,13 @@
+<p>
+  Welcome {{ account.username }}
+</p>
+
+<button mat-ripple mat-raised-button (click)="logoutClicked()"  id="logoutBtn"
+    color="accent">Logout</button><br>
+
+<div class="container">
+  <h2>Cards:</h2>
+  <div *ngFor="let card of cards;" (click)="cardClicked(card)" class="cardlickable">
+    <h4>{{card.card_name}}</h4>
+  </div>
+</div>
