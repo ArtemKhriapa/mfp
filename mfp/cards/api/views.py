@@ -1,6 +1,6 @@
-from cards.models import CardData, CompanyLocations
+from cards.models import CardData, CompanyLocations, Company
 from cards.api.serializers import CardListSerializer, CardListCreateSerializer, CardDetailSerializer, \
-    CompanyLocationsListSerializer
+    CompanyLocationsListSerializer, CompanyDetailSerializer
 
 from rest_framework import generics
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser, \
@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404
 
 
 class CardList(generics.ListAPIView):
-    serializer_class = CardListSerializer
+    serializer_class = CardDetailSerializer
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
@@ -47,7 +47,7 @@ class CardListCreate(generics.ListCreateAPIView):
 
 
 class CardDetail(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = CardDetailSerializer
+    serializer_class = CardListCreateSerializer
     permission_classes = (IsAuthenticated,)
 
     def get_object(self):
@@ -65,3 +65,8 @@ class CompanyLocationsList(generics.ListAPIView):
     def get_queryset(self):
         company = self.kwargs['company']
         return CompanyLocations.objects.filter(company=company)
+
+class CompanyList(generics.ListAPIView):
+    queryset = Company.objects.all()
+    serializer_class = CompanyDetailSerializer
+    permission_classes = (IsAdminUser, )

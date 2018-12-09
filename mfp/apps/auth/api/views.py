@@ -19,7 +19,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.utils import json
-
+from rest_framework.permissions import AllowAny
 from apps.otc.models import OtcBase
 from apps.mailer.mailer import *
 
@@ -35,6 +35,7 @@ from .serializers import UserSerializer, ResetPasswordSerializer, NewPassCreateS
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
+    permission_classes = [AllowAny, ]
 
 class CustomObtainAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):
