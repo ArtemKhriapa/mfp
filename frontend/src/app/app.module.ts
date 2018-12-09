@@ -9,8 +9,9 @@ import { MatIconModule } from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-
+import { MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { FileUploadModule } from 'ng2-file-upload';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,6 +39,8 @@ import {GlobalService} from "./services/global.service";
     MatFormFieldModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatSelectModule,
+    FileUploadModule,
 
   ],
   providers: [GlobalService],

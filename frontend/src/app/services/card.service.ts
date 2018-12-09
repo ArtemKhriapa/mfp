@@ -16,7 +16,28 @@ export class CardService {
     return this.http.get(this.baseUrl + 'cards/mycards/', this.getAuthHeaders());
   }
 
+  addCard(card: Card): Observable<any> {
+    return this.http.post(this.baseUrl + 'cards/newcard/', card,  this.getAuthHeaders());
+  }
 
+  editCard(card: Card, card_id: number): Observable<any> {
+    return this.http.put(this.baseUrl + 'cards/mycards/' + card_id + '/', card, this.getAuthHeaders());
+  }
+
+  deleteCard(card_id: number): Observable<any> {
+    return this.http.delete(this.baseUrl + 'cards/mycards/' + card_id + '/', this.getAuthHeaders());
+  }
+
+  postFile(fileToUpload: File) {
+
+    const formData: FormData = new FormData();
+    formData.append('Image', fileToUpload, fileToUpload.name);
+    return this.http.post(this.baseUrl, formData);
+  }
+
+  getCompany(): Observable<any> {
+    return this.http.get(this.baseUrl + 'cards/companies/', this.getAuthHeaders());
+  }
 
   private getAuthHeaders() {
     const token = localStorage.getItem('token');
