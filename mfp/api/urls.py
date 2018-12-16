@@ -9,4 +9,6 @@ urlpatterns = [
     url(r'^resend_registration', 
        ResendRegistrationView.as_view(), name='resend_registration')
      #all url, who work for REST
+      url(r'^auth/',
+        include('apps.auth.api.urls')),
 ]

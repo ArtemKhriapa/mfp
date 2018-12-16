@@ -5,6 +5,7 @@ from taggit.managers import TaggableManager
 from django_google_maps import fields as map_fields
 
 
+
 from gdstorage.storage import GoogleDriveStorage
 
 gd_storage = GoogleDriveStorage()
@@ -51,6 +52,7 @@ class CardData(models.Model):
         upload_to='uploads/%Y/%m/%d/', storage=gd_storage)
     image_back = models.ImageField(
         upload_to='uploads/%Y/%m/%d/', storage=gd_storage)
+
     tags = TaggableManager()
 
     class Meta:

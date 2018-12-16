@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #'apps.mfp-auth',
+
     'social_django',
     'apps.auth',
     'apps.otc',
@@ -80,6 +82,15 @@ TEMPLATES = [
         },
     },
 ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+
+
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'home'
@@ -142,7 +153,9 @@ SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
 
 GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyDQMPMBV6y-riLjZSZ46O6Bz5zz_Hr3BJ8'
 GOOGLE_MAPS_API_KEY = 'AIzaSyDQMPMBV6y-riLjZSZ46O6Bz5zz_Hr3BJ8'
+
 GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = 'drive_json-104afb2d1910.json'
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -181,7 +194,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MFP_IP = "127.0.0.1:8000"
 
 OTC_EXPIRE_DAYS = 3
 
@@ -211,3 +223,6 @@ try:
     from local_settings import *
 except ImportError:
     print("No local file")
+
+MFP_IP = "127.0.0.1:8000"
+

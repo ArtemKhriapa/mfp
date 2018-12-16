@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.cards.models import Company, CardData, CompanyLocations
+from cards.models import Company, CardData, CompanyLocations
 from django_google_maps import widgets as map_widgets
 from django_google_maps import fields as map_fields
 
