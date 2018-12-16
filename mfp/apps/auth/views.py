@@ -2,20 +2,27 @@ import logging
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.urls import reverse
+<<<<<<< HEAD
 # from django.core.mail import send_mail # TODO: delete after adding our wn mailer 
+=======
+>>>>>>> 5cf9f80d9a74ccf01703b973f85253fd7ae67f4d
 from django.conf import settings
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework import status
+<<<<<<< HEAD
 from apps.mailer.mailer import send_mail
+=======
+
+>>>>>>> 5cf9f80d9a74ccf01703b973f85253fd7ae67f4d
 from apps.otc.models import OtcBase
 from apps.auth.api.serializer import UserRegisterSerizalier, ConfirmRegisterSerializer
-# from apps.mailer import send_mail
+from apps.mailer.mailer import send_mail
 
 
 
 logger = logging.getLogger(__name__)
-# Create your views here.
+
 
 class RegisterView(CreateAPIView):
 
@@ -77,9 +84,6 @@ class ConfirmRegisterView(RetrieveAPIView):
     permission_class = []
     serializer_class = ConfirmRegisterSerializer
     
-    # def get_queryset(self):
-    #     return OtcBase.objects.filter(otc=self.kwargs['otc']).first()
-    
     def get(self, request, *args, **kwargs):
 
         serializer = self.get_serializer(data=kwargs)
@@ -105,18 +109,19 @@ class ResendRegistrationView(RegisterView):
         user = User.objects.filter(email=data['email']).first()
         if user:
             url = self.get_activation_link(user)
-            # TODO: add mailer functionality
             subject = "Activation email"
-            context = "To activate  your account click activation link or past it to your browser - {}".format(
-                url)
 
-            send_mail(
-                subject,
-                context,
-                'mfp@domain.com',
-                [user.email, ],
-                fail_silently=True
-            )
+            render_kwargs = {
+                             "template_name": "confirmation_email.html",
+                             "context": {"user_name": user.username, "activation_link": url}
+                            }
+            mail_kwargs = {
+                           "subject": subject,
+                           "message": '',
+                           "fail_silently": True,
+                           "recipient_list": [user.email, ]
+                          }
+            send_mail(render_kwargs=render_kwargs, **mail_kwargs)
             return Response({"result": "Confirmation email has been resent to user - {}".format(user.username)}, status=status.HTTP_200_OK)
         return Response({"result": "Requested email does not exist"}, status=status.HTTP_404_NOT_FOUND)
 

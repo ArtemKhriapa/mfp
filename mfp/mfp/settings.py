@@ -40,7 +40,12 @@ INSTALLED_APPS = [
     'social_django',
     'apps.otc',
     'rest_framework',
+<<<<<<< HEAD
     'djcelery_email'
+=======
+    'djcelery_email',
+    
+>>>>>>> 5cf9f80d9a74ccf01703b973f85253fd7ae67f4d
 ]
 
 MIDDLEWARE = [

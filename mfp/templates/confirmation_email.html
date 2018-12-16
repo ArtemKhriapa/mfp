@@ -1,13 +1,20 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <title>Confirm your Registration</title>
 </head>
+
 <body>
-    <div>
-      <h3>Hi, {{ user_name }}, </h3>
-      <br>
-      <h4>To confirm registration click the button below:</h4>
-      <a class="button" href="{{ activation_link }}">Confirm Registration</a>
+    {% block content %} 
+    {% endblock %}
+    <div> 
+    <h3>
+     Hi {{ user_name}},<br>
+     Please click on the link below to confirm your registration: <br>
+     <a href = {{ activation_link }}> Confrim registration </a>  
+    </h3>
     </div>
 </body>
 

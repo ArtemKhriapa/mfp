@@ -10,16 +10,25 @@ DATABASES = {
 }
 
 
+
+}
 # OTC config 
 
 OTC_EXPIRE_DAYS = 3
 
 # SMTP config
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'a6apmot@gmail.com'
-EMAIL_HOST_PASSWORD = 'relzsveijvnkynvy'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'a6apmot@gmail.com'
+# EMAIL_HOST_PASSWORD = 'relzsveijvnkynvy'
+# EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+# DEFAULT_FROM_EMAIL = "mfp@domain.com"
+
+# Mailer Config
+EMAIL_COPY_EMAILS = ''
+EMAIL_COPY_EMAIL_REPLACE = ''
+
 
 
