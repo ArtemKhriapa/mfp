@@ -1,13 +1,17 @@
-from django.conf.urls import url
-
-from apps.auth.api.views import LoginView, ResetPasswordView, NewPassCreateView, FakeLoginView, LogoutView, UserSelfView
+from django.conf.urls import url, include
+from rest_framework import routers
+from apps.auth.api.views import LoginView, ResetPasswordView, NewPassCreateView, FakeLoginView, LogoutView, UserSelfView, CustomObtainAuthToken, UserViewSet
 '''
 LogoutView, UserSelfView, ForgotPasswordCreate, \
     ForgotPasswordDetails, PasswordResetRetrieve, FakeLogin
 '''
+#fe
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
 
 
 urlpatterns = [
+    url(r'^', include(router.urls)),
     url(r'^self/$',
         UserSelfView.as_view(), name='api_user_self'),
     url(r'^fake/$',  # WAAAARNINGGG! Remove before production deployment!
@@ -22,5 +26,9 @@ urlpatterns = [
         LoginView.as_view(), name='api_auth_login'),
     url(r'^logout/$',
         LogoutView.as_view(), name='api_auth_logout'),
+
+    url(r'^authenticate/$',
+        CustomObtainAuthToken.as_view(), name='api_auth_token_auth'),
+
 
 ]

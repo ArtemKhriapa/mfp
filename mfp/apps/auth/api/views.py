@@ -14,17 +14,40 @@ from django.conf import settings
 from django.template import loader
 
 from rest_framework import generics
-from rest_framework import status
+from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.utils import json
-
+from rest_framework.permissions import AllowAny
 from apps.otc.models import OtcBase
 from apps.mailer.mailer import *
 
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+
 
 from .serializers import UserSerializer, ResetPasswordSerializer, NewPassCreateSerializer
+
+#_________________________________________
+#added just to make frontend work
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+    permission_classes = [AllowAny, ]
+
+class CustomObtainAuthToken(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        response = super(CustomObtainAuthToken, self).post(request, *args, **kwargs)
+        token = Token.objects.get(key=response.data['token'])
+        user = User.objects.get(id=token.user_id)
+        serializer = UserSerializer(user, many=False)
+        return Response({'token': token.key, 'user': serializer.data})
+
+#_____________________________________________
+
+
 
 
 class LoginView(generics.RetrieveAPIView):
@@ -32,8 +55,8 @@ class LoginView(generics.RetrieveAPIView):
     permission_classes = []
 
     def get(self, request, *args, **kwargs):
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
