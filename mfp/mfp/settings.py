@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     #'apps.mfp-auth',
     'social_django',
     'apps.otc',
-    'rest_framework'
+    'rest_framework',
+    'djcelery_email',
+    
 ]
 
 MIDDLEWARE = [
