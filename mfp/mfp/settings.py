@@ -38,14 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social_django',
+    'apps.auth',
     'apps.otc',
     'rest_framework',
-<<<<<<< HEAD
-    'djcelery_email'
-=======
+    'cards',
+    'taggit',
+    'taggit_serializer',
+    'django_google_maps',
     'djcelery_email',
-    
->>>>>>> 5cf9f80d9a74ccf01703b973f85253fd7ae67f4d
+    'gdstorage'
 ]
 
 MIDDLEWARE = [
@@ -139,6 +140,9 @@ SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
                                    ('headline', 'headline'),
                                    ('industry', 'industry')]
 
+GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyDQMPMBV6y-riLjZSZ46O6Bz5zz_Hr3BJ8'
+GOOGLE_MAPS_API_KEY = 'AIzaSyDQMPMBV6y-riLjZSZ46O6Bz5zz_Hr3BJ8'
+GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = 'drive_json-104afb2d1910.json'
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -181,7 +185,7 @@ MFP_IP = "127.0.0.1:8000"
 
 OTC_EXPIRE_DAYS = 3
 
-EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_COPY_EMAILS = []
 EMAIL_COPY_EMAIL_REPLACE = ''
 
@@ -192,7 +196,16 @@ CELERY_EMAIL_TASK_CONFIG = {
     'name': 'djcelery_email_send',
     'ignore_result': True,
 }
-CELERY_EMAIL_QUEUE = True
+CELERY_EMAIL_QUEUE = False
+if CELERY_EMAIL_QUEUE:
+    EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'mydevprojapps@gmail.com'
+EMAIL_HOST_PASSWORD = 'lwonsaljahvgfhqe'
+DEFAULT_FROM_EMAIL = "mfp@domain.com"
 
 try:
     from local_settings import *
