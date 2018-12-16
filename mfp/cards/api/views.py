@@ -1,3 +1,4 @@
+
 from cards.models import CardData, CompanyLocations, Company
 from cards.api.serializers import CardListSerializer, CardListCreateSerializer, CardDetailSerializer, \
     CompanyLocationsListSerializer, CompanyDetailSerializer
@@ -9,6 +10,7 @@ from django.shortcuts import get_object_or_404
 
 
 class CardList(generics.ListAPIView):
+
     serializer_class = CardDetailSerializer
     permission_classes = (IsAuthenticated,)
 

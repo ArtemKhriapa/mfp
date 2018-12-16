@@ -3,4 +3,6 @@
 *idea*
 *~
 *env
-*local.py
+*local*.py
+.vscode
+local_settings.py

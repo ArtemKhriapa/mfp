@@ -6,8 +6,6 @@ from taggit_serializer.serializers import (TagListSerializerField,
 
 User = get_user_model()
 
-
-
 class Base64ImageField(serializers.ImageField):
     """
     A Django REST framework field for handling image-uploads through raw post data.
@@ -58,9 +56,6 @@ class Base64ImageField(serializers.ImageField):
         return extension
 
 
-
-
-
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -89,9 +84,6 @@ class CardListSerializer(serializers.ModelSerializer):
         except:
             image_front = None
         return image_front
-
-
-
 
 
 
