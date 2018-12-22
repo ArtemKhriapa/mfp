@@ -1,6 +1,6 @@
 
 from cards.models import CardData, CompanyLocations, Company
-from cards.api.serializers import CardListSerializer, CardListCreateSerializer, CardDetailSerializer, \
+from cards.api.serializers import CardListSerializer, CardCreateSerializer, CardDetailSerializer, \
     CompanyLocationsListSerializer, CompanyDetailSerializer
 
 from rest_framework import generics
@@ -32,8 +32,8 @@ class CategoryList(generics.ListAPIView):
         return CardData.objects.filter(user=user, categories=category)
 
 
-class CardListCreate(generics.ListCreateAPIView):
-    serializer_class = CardListCreateSerializer
+class CardListCreate(generics.CreateAPIView):
+    serializer_class = CardCreateSerializer
     permission_classes = (IsAuthenticated,)
 
     def perform_create(self, serializer):
@@ -49,7 +49,7 @@ class CardListCreate(generics.ListCreateAPIView):
 
 
 class CardDetail(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = CardListCreateSerializer
+    serializer_class = CardDetailSerializer
     permission_classes = (IsAuthenticated,)
 
     def get_object(self):

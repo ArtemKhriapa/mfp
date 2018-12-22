@@ -18,4 +18,4 @@ urlpatterns = [
 
 if local_settings.DEBUG is True:
     urlpatterns += static(local_settings.STATIC_URL, document_root=local_settings.STATIC_ROOT)
-
+    urlpatterns += static(local_settings.MEDIA_URL, document_root=local_settings.MEDIA_ROOT)

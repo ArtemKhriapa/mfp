@@ -91,16 +91,14 @@ export class HomeComponent implements OnInit {
 
   onFileChange(event) {
     let reader = new FileReader();
-    if(event.target.files && event.target.files.length > 0) {
+    if (event.target.files && event.target.files.length > 0) {
       let file = event.target.files[0];
       reader.readAsDataURL(file);
       reader.onload = () => {
-        this.cardInput.get('image_front').setValue({
-          filename: file.name,
-          filetype: file.type,
-          value: reader.result.toString().split(',')[1]
-        })
-      };
+
+        this.cardInput.get('image_front').setValue(reader.result.toString().split(',')[1]);
+
+      }
     }
   }
 
@@ -118,6 +116,7 @@ export class HomeComponent implements OnInit {
         },
         error => {
           this.snackBar.open('Error edit card', '', { duration: 3000 });
+          console.log(error)
         }
       );
     } else {
@@ -144,6 +143,7 @@ export class HomeComponent implements OnInit {
       categoryControl: ['Discount'],
       description: ['', Validators.required],
       companyControl: [this.companies, Validators.required],
+      image_front: ['', Validators.required],
       tags:['', Validators.required]
     });
   }
