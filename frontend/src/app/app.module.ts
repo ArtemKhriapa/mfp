@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+import {MatDialogModule} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
@@ -12,7 +13,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { FileUploadModule } from 'ng2-file-upload';
-
+import {MatCardModule} from "@angular/material";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -34,11 +35,13 @@ import {GlobalService} from "./services/global.service";
     ReactiveFormsModule,
     HttpClientModule,
     MatButtonModule,
+    MatCardModule,
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatDialogModule,
     MatSelectModule,
     FileUploadModule,
 
