@@ -6,6 +6,10 @@ from django_google_maps import fields as map_fields
 
 
 
+from gdstorage.storage import GoogleDriveStorage
+
+gd_storage = GoogleDriveStorage()
+
 class Company(models.Model):
     company_id = models.AutoField(primary_key=True)
     company_name = models.CharField(max_length=100, blank=True, null=True)
@@ -44,8 +48,11 @@ class CardData(models.Model):
     company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.SET_NULL)
     description = models.TextField(blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
-    image_front = models.ImageField(upload_to='uploads/%Y/%m/%d/')
-    image_back = models.ImageField(upload_to='uploads/%Y/%m/%d/')
+    image_front = models.ImageField(
+        upload_to='uploads/%Y/%m/%d/', storage=gd_storage)
+    image_back = models.ImageField(
+        upload_to='uploads/%Y/%m/%d/', storage=gd_storage)
+
     tags = TaggableManager()
 
     class Meta:

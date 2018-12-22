@@ -9,7 +9,6 @@ User = get_user_model()
 
 
 
-
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -19,9 +18,6 @@ class UserDetailSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
         ]
-
-
-
 
 
 

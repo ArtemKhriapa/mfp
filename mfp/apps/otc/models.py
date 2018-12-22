@@ -1,4 +1,7 @@
+from datetime import timedelta
 from django.db import models
+from django.conf import settings
+
 from django.contrib.auth.models import User
 from django.utils import timezone
 import uuid
@@ -19,3 +22,7 @@ class OtcBase(models.Model):
         self.is_used = True
         self.used_in = timezone.now()
         self.save()
+    
+    def check_code(self):
+        date_check = timezone.now() - self.created_in < timedelta(days=settings.OTC_EXPIRE_DAYS)
+        return date_check

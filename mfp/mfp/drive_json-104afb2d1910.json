@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "pivotal-base-220414",
+  "private_key_id": "104afb2d1910dbc7c335332b6a04a5635a8c3de6",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCaY8L7vJY04yM4\ndfNmzoNuNJXDvlGyDtpyueRNsej+RC7DAcf6y+oFkVdOQ67cKNLy4nJJdM+Cilpc\ncPCjow+/OgjiMqpVpHtvEnxWELIHAyIUWc34zGelSh8S7wh9yW7d2w0+BYyB/bzs\n8wLpDXNDoFeUGoPkGRkhtVM5QE5pw2+k6joImlyxJo+mENHW90ysp5Zc9fXG0nVn\nnmMJNq2QRQDPE0ljJaerJAGjDH5gJHGwRkANbDmoXOKjp31mhLe1xySc4sB4m7k0\nB3mJ6lzSPxcRSnfG9uZg1avdyQYjSu7bVY9q7rS22DVNwDtao+iosWX2JF+u3kS8\nsNS75ChJAgMBAAECggEAA7J6D8q37ct3A19fD+TH+h/kFT8DGFM+5nVD/cX8qSLL\nXDai9MMk1x4gUTARlCqdxfISdWazdcdn5g5QqO6Fo5lEGgdHaSEfppeH/DdOosMv\nsf07j5F04Eev36VzQTCNc955c5/bj0ewWkabLicOY1MdPcn2bhmEGU33u1IqU+Ha\nzor9NuNGUiwiLofaGxAnQZk/3xdMO1WcjvVYfX46hpTcdeYL38b20MIhh1drSisv\ny7th4P0oyWb3txiaUKLNHGxuzLmV0mkA29v4sclt41uSVQumy+iUT7mDLZQugPbK\n/RrTbtt9fGhZp7bwumVGa+83IDYdX3LHurgXPIuVwQKBgQDIHQpscbbyO1Tj9uk4\ndg9po74+B0cyE2NV8SyP3hJq4xFWSLUtJKdjrbTXzl4ITg5RE7aJuiKPqvDHqzRY\nUtowpwrhpM3DOB6jsu3GSGsdpbrH1kD7/OWGnhT3JctUlbEkJD3i2OPnYYgNYYHX\nHhoyCbpSRZpdxs35J4VDV756IQKBgQDFgbx5J7mqFbkJU/Bm+bEDd7/Lr2Iuq86C\njxrL10bkjDdQ2WS9delnxYxCpI5+8j3TQKf4tUnIPP8tg8g9Km3nDnvLKRA13kCM\n8U/7h4JDWsRwMEKkMSbGTHrvPGlIlxTG4pEDmtKC3AHc2c81dkR/5shcaU/932S4\ndsqn64l5KQKBgQDHsSswsn1k1k5NOpzbCf0xZwQ2M98ZGn3bSlM0sd/hJ/yqBN4/\nUT902egIHth5IyNoRuq2H7fTdDrYlYEjznILcPYL3AC1GfCBXNGoN6YkrLhqKOUq\nUODe6Ct1whJYsxRVQ5E6KUOsJwi0iaQe/dwYKNr0tJ5pjDUIuCZk4E+k4QKBgQCU\nwr0EvCkZtLbkEbcWuKbdJ8rsTbMz1+/5YnQaaJFa/0mCudso4LDmmmKkp3E0qJxs\ni1x49YMXMOo6i/G8MEMLL1uKj+lHyZjxD6jgmRZCSRGANrlbFjJQVbaajvP12uWp\nT2lOP8SjD7bPc7agW+4IL/llsWSwoRwp3D+T7tJi0QKBgDz7vHH4dxOP0ybzdUd4\nGYxTzKJV1OdF8YCiFwRpjvWfTZ1NPJy2Gf+ZQfuWGFVry+iLpV9O+b4KjsxdiBn+\n3Juwx5jdTEEaePwmTZk58VGJU+B+T5eW3J9ovtEUtI+CcHSaoLBf/RS9dCVFUNM1\nT+rOoTF1Lk2aYCa9yh3pJ6pH\n-----END PRIVATE KEY-----\n",
+  "client_email": "cardbug-django@pivotal-base-220414.iam.gserviceaccount.com",
+  "client_id": "112727516325198337881",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/cardbug-django%40pivotal-base-220414.iam.gserviceaccount.com"
+}

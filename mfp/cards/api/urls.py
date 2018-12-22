@@ -8,5 +8,4 @@ urlpatterns = [
     url(r'^newcard/$', views.CardListCreate.as_view(), name='card_new'),
     url(r'^locations/(?P<company>.+)/$', views.CompanyLocationsList.as_view(), name='loc_list'),
     url(r'^companies/$', views.CompanyList.as_view(), name='company_list'),
-
 ]

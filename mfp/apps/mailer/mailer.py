@@ -4,6 +4,7 @@ from django.conf import settings as django_settings
 
 
 def send_mail(*args, render_kwargs={}, **kwargs):
+    kwargs["from_email"] = django_settings.DEFAULT_FROM_EMAIL
     mail_sender(
         *args, 
         html_message=render_to_string(

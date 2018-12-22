@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     #'apps.mfp-auth',
+
     'social_django',
     'apps.auth',
     'apps.otc',
@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'django_google_maps',
     'corsheaders',
     'drf_extra_fields',
+    'djcelery_email',
+    'gdstorage'
 
 ]
 
@@ -156,6 +158,8 @@ SOCIAL_AUTH_LINKEDIN_EXTRA_DATA = [('id', 'id'),
 GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyDQMPMBV6y-riLjZSZ46O6Bz5zz_Hr3BJ8'
 GOOGLE_MAPS_API_KEY = 'AIzaSyDQMPMBV6y-riLjZSZ46O6Bz5zz_Hr3BJ8'
 
+GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = 'drive_json-104afb2d1910.json'
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -209,9 +213,36 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+OTC_EXPIRE_DAYS = 3
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_COPY_EMAILS = []
+EMAIL_COPY_EMAIL_REPLACE = ''
+
+# Celery config (set your broker configuration - by default guest@127.0.0.1)
+# CELERY_BROKER_URL = 'amqp://rabbit_celery:queue_celery@127.0.0.1/'
+
+CELERY_EMAIL_TASK_CONFIG = {
+    'name': 'djcelery_email_send',
+    'ignore_result': True,
+}
+CELERY_EMAIL_QUEUE = False
+if CELERY_EMAIL_QUEUE:
+    EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'mydevprojapps@gmail.com'
+EMAIL_HOST_PASSWORD = 'lwonsaljahvgfhqe'
+DEFAULT_FROM_EMAIL = "mfp@domain.com"
+
 try:
     from local_settings import *
 except ImportError:
-    pass
+    print("No local file")
 
 MFP_IP = "127.0.0.1:8000"
+
